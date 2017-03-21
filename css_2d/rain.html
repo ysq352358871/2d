@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rain</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        html{
+            height: 100%;width: 100%;
+            background: #000000;
+            overflow: hidden;
+
+        }
+        body{
+            height: 100%;width: 100%;
+            background: transparent;
+            overflow: hidden;
+        }
+    </style>
+    <script>
+        window.onload=function () {
+            var cwidth=document.documentElement.clientWidth;
+            var cheight=document.documentElement.clientHeight;
+            var body=document.querySelector("body");
+            var arr=[];
+                setInterval(function () {
+                    body.style.transition="transform 2s linear";
+                    body.style.transform="rotate("+30*Math.sin(Math.floor(Math.random()*3)*180)+"deg)";
+                },5000)
+
+
+            //创造雨滴
+            for(var i=0;i<100;i++){
+                var div=document.createElement("div");
+                var color=getColor();
+                div.style.cssText="width:2px;height:4px;background:rgb("+ color[0]+","+color[1]+","+color[2]+");position:absolute;top:-100px;left:"+((50+cwidth-100)*Math.random())+"px";
+                div.style. transition="transform 3s linear "+3*Math.random()+"s";
+                arr.push(div);
+                body.appendChild(div);
+            }
+            setTimeout(function () {
+               for(var i=0;i<arr.length;i++){
+                   arr[i].style.transform="translate(0,"+(cheight+80)+"px)";
+                   arr[i].addEventListener("webkitTransitionEnd",function () {
+                        this.style.transition="none";
+                        this.style.transform="translate(0,-100px)";
+                        var that=this;
+                        setTimeout(function () {
+                            that.style.transform="translate(0,"+(cheight+80)+"px)";
+                            that.style. transition="transform 3s linear "+3*Math.random()+"s";
+                        },0)
+                   })
+               }
+            },0)
+            function getColor() {
+                var colorArr=[];
+                for (var i=0;i<3;i++){
+                    colorArr.push(Math.floor(256*Math.random()));
+                }
+                return colorArr;
+            }
+        }
+    </script>
+</head>
+<body >
+
+</body>
+</html>
